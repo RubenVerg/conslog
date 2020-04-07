@@ -1,6 +1,6 @@
 {
   "name": "conslog",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "Console Logging, done the right way.",
   "main": "main.js",
   "scripts": {
