@@ -1,0 +1,25 @@
+{
+  "name": "conslog",
+  "version": "1.0.1",
+  "description": "Console Logging, done the right way.",
+  "main": "main.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rubenverg/conslog.git"
+  },
+  "keywords": [
+    "console"
+  ],
+  "author": "Ruben Vergani <me@rubenverg.com> (rubenverg.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rubenverg/conslog/issues"
+  },
+  "homepage": "https://github.com/rubenverg/conslog#readme",
+  "dependencies": {
+    "colors": "^1.4.0"
+  }
+}
