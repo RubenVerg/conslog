@@ -32,4 +32,19 @@ cp.uncatch();
 
 cp.ungroup();
 
-cp.fatal(new Error('f'));
+cp.table([1, 2, 12]);
+
+//cp.info(cp.read('test> '));
+
+//cp.print('\n');
+
+cp.print('hello');
+
+cp.log('');
+
+cp.indent();
+cp.print('indented')
+
+/* THROWS */
+
+// cp.fatal(new Error('f'));

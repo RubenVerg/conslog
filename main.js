@@ -1,6 +1,7 @@
 let Col = require('colors');
 let util = require('util');
 const v8 = require('v8');
+let Rea = require('readline-sync');
 
 /**
  * @returns {any[]}
@@ -88,14 +89,27 @@ let exp = {
 		Col.setTheme(theme);
 	},
 	/**
-	 * @description Logs to console.
+	 * @description Logs to console with a newline.
 	 * @param {any} msg What to log.
 	 * @param  {...any} optionalParams Substitutions. See console.log.
 	 */
 	log(msg, ...optionalParams) {
 		this.NEAR_GROUP_START = false;
 		this.NEAR_GROUP_END = false;
-		process.stdout.write(" ".repeat(this.INDENTATION * this.indentationSteps) + util.format.apply(this, arguments) + '\n');
+		process.stdout.write(" ".repeat(this.INDENTATION * this.indentationSteps) + util.format(msg || '', ...arguments) + '\n');
+	},
+	/**
+	 * @description Prints to console without indentation and without newline.
+	 * @param {any} msg What to print.
+	 */
+	print(msg) {
+		process.stdout.write(util.format(msg));
+	},
+	/**
+	 * @description Prints to console the indentation, to use with print() at the start of a line.
+	 */
+	indent() {
+		this.print(' '.repeat(this.INDENTATION * this.indentationSteps));
 	},
 	/**
 	 * @description Logs an info message. NOTICE: to use the default head but also formatting, the second argument must be falsy.
@@ -265,9 +279,13 @@ let exp = {
 	groupEnd() {
 		this.ungroup()
 	},
-	LOGTABLE(t) {
+	read(text) {
+		let r = Rea.question(text);
+		return r;
+	},
+	_tTL(t) {
 		e = "";
-		t.forEach(el => e += el +  '\n');
+		t.forEach(el => e += el + '\n');
 		e = e.slice(0, -1);
 		return e
 	},
@@ -289,24 +307,41 @@ let exp = {
 			*/
 			let lines = [];
 
-			arr.forEach((el, id) => {arr[id] = util.format(el)});
+			arr.forEach((el, id) => { arr[id] = util.format(el) });
 
 			let sortedByLength = clone(arr).sort(lSort);
 			let reversedlySBL = clone(sortedByLength).reverse();
 
 			lines[0] = `${this.BOX.se}${this.BOX.h.repeat(reversedlySBL[0].length)}${this.BOX.sw}`
-			this.log(this.LOGTABLE(lines));
+			this.log(this._tTL(lines));
 
 			arr.forEach(el => {
-				lines.push(`${this.BOX.v}${el}${this.BOX.v}`);
+				lines.push(`${this.BOX.v}${
+					(function () {
+						let l = reversedlySBL[0].length;
+						if (l % 2 === 0) {
+							if (el.length % 2 === 0) {
+								return ' '.repeat((l - el.length) / 2) + el + ' '.repeat((l - el.length) / 2);
+							} else {
+								return ' '.repeat(((l - el.length) / 2) - 1) + el + ' '.repeat((l - el.length) / 2);
+							}
+						} else {
+							if (el.length % 2 === 1) {
+								return ' '.repeat(((l / 2) - 0.5) - ((el.length / 2) - 0.5)) + el + ' '.repeat(((l / 2) - 0.5) - ((el.length / 2) - 0.5));
+							} else {
+								return ' '.repeat((((l / 2) - 0.5) - ((el.length / 2) - 0.5)) - 1) + el + ' '.repeat(((l / 2) - 0.5) - ((el.length / 2) - 0.5));
+							}
+						}
+					})()
+					}${this.BOX.v}`);
 				lines.push(`${this.BOX.ve}${this.BOX.h.repeat(reversedlySBL[0].length)}${this.BOX.vw}`);
 			});
-			this.log(this.LOGTABLE(lines));
+			this.log(this._tTL(lines));
 
 			lines.pop();
 
 			lines.push(`${this.BOX.ne}${this.BOX.h.repeat(reversedlySBL[0].length)}${this.BOX.nw}`);
-			this.log(this.LOGTABLE(lines));
+			this.log(this._tTL(lines));
 
 		} else if (arr instanceof Array) {
 			// 0d array table.
@@ -325,5 +360,3 @@ let exp = {
 }
 
 module.exports = exp;
-
-exp.table([1, 2, 12])

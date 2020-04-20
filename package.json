@@ -20,6 +20,8 @@
   },
   "homepage": "https://github.com/rubenverg/conslog#readme",
   "dependencies": {
-    "colors": "^1.4.0"
-  }
+    "colors": "^1.4.0",
+    "readline-sync": "^1.4.10"
+  },
+  "devDependencies": {}
 }
